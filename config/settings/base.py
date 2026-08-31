@@ -18,6 +18,8 @@ SECRET_KEY = config("SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.User'
+
 
 # Application definition
 
