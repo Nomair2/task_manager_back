@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView
 )
 from rest_framework.permissions import IsAuthenticated
+from .serializers import LogoutSerializer
 
 # Create your views here.
 
@@ -48,4 +49,21 @@ class ProtectedTestView(APIView):
                 'user_id':str(request.user.id),
                 'email':request.user.email ,
             }
+        )
+
+class LogoutView(APIView):
+
+    def post(self, request):
+        serializer = LogoutSerializer(
+            data=request.data
+        )
+
+        serializer.is_valid(
+            raise_exception=True
+        )
+
+        serializer.save()
+
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
         )
