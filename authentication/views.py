@@ -3,7 +3,11 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response 
 from .serializers import RegisterSerializer  , LoginSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView ,
+    TokenRefreshView
+)
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -31,3 +35,17 @@ class RegisterView(APIView):
 
 class Loginview(TokenObtainPairView):
     serializer_class  = LoginSerializer
+
+class RefreshTokenView(TokenRefreshView):
+    pass
+
+class ProtectedTestView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self , request):
+        return Response(
+            {
+                'message':"You are protected ", 
+                'user_id':str(request.user.id),
+                'email':request.user.email ,
+            }
+        )
