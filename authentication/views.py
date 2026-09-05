@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView 
 from rest_framework import status
 from rest_framework.response import Response 
-from .serializers import RegisterSerializer  , LoginSerializer
+from .serializers import RegisterSerializer  , LoginSerializer , CurrentUserSerializer
 from rest_framework_simplejwt.views import (
     TokenObtainPairView ,
     TokenRefreshView
@@ -52,7 +52,6 @@ class ProtectedTestView(APIView):
         )
 
 class LogoutView(APIView):
-
     def post(self, request):
         serializer = LogoutSerializer(
             data=request.data
@@ -66,4 +65,16 @@ class LogoutView(APIView):
 
         return Response(
             status=status.HTTP_204_NO_CONTENT
+        )
+
+class CurrentUserView(APIView):
+    permission_classes  = [IsAuthenticated]
+
+    def get(self, request ):
+        serializer = CurrentUserSerializer(
+            request.user
+        )
+
+        return Response(
+            serializer.data
         )
