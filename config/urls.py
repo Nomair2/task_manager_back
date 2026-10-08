@@ -23,4 +23,6 @@ urlpatterns = [
     path("api/health/", health_check),
     path("api/auth/" , include('authentication.urls') ),
     path("api/workspaces/" , include('workspaces.urls')),
+    path("api/workspaces/<uuid:workspace_id>/projects/", include("projects.urls")),
+    path("api/workspaces/<uuid:workspace_id>/projects/<uuid:project_id>/tasks/", include("projects.urls")),
 ]
